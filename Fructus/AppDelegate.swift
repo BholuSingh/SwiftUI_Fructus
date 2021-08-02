@@ -7,14 +7,17 @@
 
 import SwiftUI
 import UserNotifications
-
+import AppCenter
+import AppCenterCrashes
+import AppCenterAnalytics
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
-        
+        AppCenter.start(withAppSecret: "b624f26e-9cbf-49c6-9c9d-d4fa405183aa", services: [Analytics.self, Crashes.self])
+
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -28,7 +31,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        
+
         application.registerForRemoteNotifications()
         return true
     }
